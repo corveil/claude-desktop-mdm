@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Claude]
+"inferenceProvider"="gateway"
+"inferenceGatewayBaseUrl"="https://corveil.io"
+"inferenceCredentialKind"="interactive"
+"inferenceGatewayOidc"="{\"clientId\":\"client_01KQDHAG1V3FEATNH6YW7MYGXF\",\"authorizationUrl\":\"https://api.workos.com/user_management/authorize?provider=authkit\",\"tokenUrl\":\"https://api.workos.com/user_management/authenticate\",\"bearerTokenType\":\"access_token\",\"scopes\":\"openid profile email offline_access\",\"redirectPort\":53180}"
+"chatTabEnabled"=dword:00000001
+"deploymentDisplayName"="Corveil"
+"deploymentDisplaySubtitle"="Corveil"
+"endUserAttribution"=dword:00000001
+"banner"="{\"enabled\":true,\"text\":\"Example Org\",\"backgroundColor\":\"#0F172A\",\"textColor\":\"#FFFFFF\",\"linkUrl\":\"https://example.org\"}"
