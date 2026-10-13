@@ -46,7 +46,7 @@ are sample labels. Replace them before you deploy.
 | File | Where it goes |
 | --- | --- |
 | `corveil-2.7032.mobileconfig` | macOS MDM, user scope. Payload domain `com.anthropic.claudefordesktop`. |
-| `corveil-2.7032.reg` | Windows. Values directly under `HKCU\SOFTWARE\Policies\Claude`. |
+| `corveil-2.7032.reg` | Windows. Values directly under `HKLM\SOFTWARE\Policies\Claude`. |
 
 Sign-in sets `inferenceCredentialKind` to `external-idp` and supplies
 `inferenceIdpOidc`, with `inferenceIdpAuthFlow` set to `browser`.
@@ -56,10 +56,17 @@ These files set only the gateway and sign-in keys. They leave the chat
 tab, the deployment labels, end-user attribution, and the banner at
 their defaults. There is no Linux or JSON form of this profile.
 
+Both Windows files write machine policy, the hive Anthropic recommends
+for a fleet. Importing a `.reg` file adds and overwrites values but
+never removes them. To move a Windows device from `corveil.reg` to
+`corveil-2.7032.reg`, clear the key first with
+`reg delete HKLM\SOFTWARE\Policies\Claude /va /f`. Otherwise the
+original profile's banner, labels, chat tab, attribution, and
+`inferenceGatewayOidc` stay on the device.
+
 Claude Desktop ignores `HKCU\SOFTWARE\Policies\Claude` when any value
-is present under `HKLM\SOFTWARE\Policies\Claude`. To move a Windows
-device from `corveil.reg` to `corveil-2.7032.reg`, remove the values
-under `HKLM\SOFTWARE\Policies\Claude` first.
+is present under `HKLM\SOFTWARE\Policies\Claude`, so do not split a
+profile across the two hives.
 
 None of these files contains an API key or a session token.
 
