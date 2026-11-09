@@ -4,6 +4,36 @@ Sample managed configuration that points Claude Desktop at the hosted
 Corveil gateway and signs the user in through the organization identity
 provider.
 
+## Download your organization's profile
+
+These files are templates. Get your organization's copy from Corveil
+instead: on **People & Access → Organization**, choose **Get Desktop
+profile** on the **Claude Desktop** card. The card is there once Corveil
+accepts Claude Desktop sign-in for your organization. The download has
+the `.mobileconfig`, `.reg` and `.json` files below, filled in for your
+organization:
+
+- `organization_id` in the sign-in URL is your organization, so
+  **Sign in to your organization** goes straight to your identity
+  provider, with no email page first. It goes through your
+  organization's single sign-on connection, so set that up first.
+- `inferenceGatewayBaseUrl` is your Corveil origin.
+- `deploymentDisplayName` is your organization's name, and the sample
+  banner is left out.
+
+Each template's sign-in URL ends in
+`organization_id=YOUR_ORGANIZATION_ID`, a placeholder. A template
+deployed without replacing it does not sign anyone in. The
+`.mobileconfig`, `.reg` and Intune files say so in a comment. JSON has
+no comments, so `managed-settings.json` and `corveil.json` carry only
+the placeholder.
+
+Start sign-in from Claude Desktop, not from your identity provider's
+app tile. A sign-in started from the tile has no Desktop request to
+return to, so it ends in the Corveil dashboard. Desktop opens the
+device's default browser, so be signed in to your identity provider in
+that browser.
+
 ## Which profile to use
 
 Claude Desktop 2.7032.0 renamed the keys that configure this sign-in.
@@ -39,7 +69,8 @@ string in the `.mobileconfig` and the `.reg`. On Windows,
 `chatTabEnabled` and `endUserAttribution` are `DWORD` values.
 
 `deploymentDisplayName`, `deploymentDisplaySubtitle`, and the banner text
-are sample labels. Replace them before you deploy.
+are sample labels. Replace them before you deploy, or use your
+organization's download.
 
 ## 2.7032 profile
 
@@ -119,7 +150,10 @@ before 2.7032.0, package `corveil.reg` as a Win32 app instead:
   with "Associated with a 32-bit app on 64-bit clients" set to No.
 
 `install.ps1` and `detect.ps1` each carry a copy of the values in
-`corveil-2.7032.reg`. Change all three files together.
+`corveil-2.7032.reg`. Change all three files together. Before you
+upload them, replace `YOUR_ORGANIZATION_ID` in both scripts with the
+`organization_id` value from the `authorizationUrl` in your
+organization's `corveil-2.7032.reg`.
 
 None of these files contains an API key or a session token.
 

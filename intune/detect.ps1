@@ -13,11 +13,14 @@ script of a remediation.
 
 $ErrorActionPreference = 'Stop'
 
+# Replace YOUR_ORGANIZATION_ID with the organization_id in the authorizationUrl of
+# your organization's corveil-2.7032.reg from Corveil (People & Access >
+# Organization > Claude Desktop > Get Desktop profile), here and in install.ps1.
 # Keep in sync with corveil-2.7032.reg and install.ps1.
 $values = [ordered]@{
     inferenceGatewayBaseUrl = 'https://corveil.io'
     inferenceIdpAuthFlow    = 'browser'
-    inferenceIdpOidc        = '{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?provider=authkit","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}'
+    inferenceIdpOidc        = '{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}'
     inferenceProvider       = 'gateway'
     inferenceCredentialKind = 'external-idp'
 }

@@ -19,8 +19,9 @@
 				<string>https://corveil.io</string>
 				<key>inferenceIdpAuthFlow</key>
 				<string>browser</string>
+				<!-- authorizationUrl ends in organization_id=YOUR_ORGANIZATION_ID, your organization's WorkOS organization id, which sends sign-in straight to your identity provider. Download this profile with it filled in from Corveil: People & Access > Organization > Claude Desktop > Get Desktop profile. -->
 				<key>inferenceIdpOidc</key>
-				<string>{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?provider=authkit","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}</string>
+				<string>{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}</string>
 				<key>inferenceProvider</key>
 				<string>gateway</string>
 				<key>inferenceCredentialKind</key>
