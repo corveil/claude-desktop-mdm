@@ -7,3 +7,4 @@ Windows Registry Editor Version 5.00
 "inferenceIdpOidc"="{\"clientId\":\"client_01KQDHAG1V3FEATNH6YW7MYGXF\",\"authorizationUrl\":\"https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID\",\"tokenUrl\":\"https://api.workos.com/user_management/authenticate\",\"bearerTokenType\":\"access_token\",\"scopes\":\"openid profile email offline_access\",\"appendOfflineAccess\":true,\"redirectPort\":53180,\"redirectHost\":\"127.0.0.1\"}"
 "inferenceProvider"="gateway"
 "inferenceCredentialKind"="external-idp"
+"disableDeploymentModeChooser"=dword:00000001

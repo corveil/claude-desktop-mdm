@@ -10,6 +10,7 @@
     "scopes": "openid profile email offline_access",
     "redirectPort": 53180
   },
+  "disableDeploymentModeChooser": true,
   "chatTabEnabled": true,
   "deploymentDisplayName": "Corveil",
   "deploymentDisplaySubtitle": "Corveil",

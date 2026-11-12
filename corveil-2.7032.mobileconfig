@@ -26,6 +26,8 @@
 				<string>gateway</string>
 				<key>inferenceCredentialKind</key>
 				<string>external-idp</string>
+				<key>disableDeploymentModeChooser</key>
+				<true/>
 			</dict>
 		</array>
 		<key>PayloadDisplayName</key>
