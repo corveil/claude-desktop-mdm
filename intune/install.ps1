@@ -13,13 +13,19 @@ script, or the remediation script of a remediation.
 
 $ErrorActionPreference = 'Stop'
 
+# Replace YOUR_ORGANIZATION_ID with the organization_id in the authorizationUrl of
+# your organization's corveil-2.7032.reg from Corveil (People & Access >
+# Organization > Claude Desktop > Get Desktop profile), here and in detect.ps1.
 # Keep in sync with corveil-2.7032.reg and detect.ps1.
-$values = [ordered]@{
+$strings = [ordered]@{
     inferenceGatewayBaseUrl = 'https://corveil.io'
     inferenceIdpAuthFlow    = 'browser'
-    inferenceIdpOidc        = '{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?provider=authkit","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}'
+    inferenceIdpOidc        = '{"clientId":"client_01KQDHAG1V3FEATNH6YW7MYGXF","authorizationUrl":"https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID","tokenUrl":"https://api.workos.com/user_management/authenticate","bearerTokenType":"access_token","scopes":"openid profile email offline_access","appendOfflineAccess":true,"redirectPort":53180,"redirectHost":"127.0.0.1"}'
     inferenceProvider       = 'gateway'
     inferenceCredentialKind = 'external-idp'
+}
+$dwords = [ordered]@{
+    disableDeploymentModeChooser = 1
 }
 
 # Intune runs Win32 app commands in a 32-bit host. Open the 64-bit view
@@ -29,8 +35,11 @@ try {
     $key = $hklm.CreateSubKey('SOFTWARE\Policies\Claude')
     try {
         $key.DeleteValue('inferenceGatewayOidc', $false)
-        foreach ($name in $values.Keys) {
-            $key.SetValue($name, $values[$name], 'String')
+        foreach ($name in $strings.Keys) {
+            $key.SetValue($name, $strings[$name], 'String')
+        }
+        foreach ($name in $dwords.Keys) {
+            $key.SetValue($name, $dwords[$name], 'DWord')
         }
     } finally {
         $key.Close()

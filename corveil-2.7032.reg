@@ -1,8 +1,10 @@
 Windows Registry Editor Version 5.00
 
+; authorizationUrl ends in organization_id=YOUR_ORGANIZATION_ID, your organization's WorkOS organization id, which sends sign-in straight to your identity provider. Download this profile with it filled in from Corveil: People & Access > Organization > Claude Desktop > Get Desktop profile.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Claude]
 "inferenceGatewayBaseUrl"="https://corveil.io"
 "inferenceIdpAuthFlow"="browser"
-"inferenceIdpOidc"="{\"clientId\":\"client_01KQDHAG1V3FEATNH6YW7MYGXF\",\"authorizationUrl\":\"https://api.workos.com/user_management/authorize?provider=authkit\",\"tokenUrl\":\"https://api.workos.com/user_management/authenticate\",\"bearerTokenType\":\"access_token\",\"scopes\":\"openid profile email offline_access\",\"appendOfflineAccess\":true,\"redirectPort\":53180,\"redirectHost\":\"127.0.0.1\"}"
+"inferenceIdpOidc"="{\"clientId\":\"client_01KQDHAG1V3FEATNH6YW7MYGXF\",\"authorizationUrl\":\"https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID\",\"tokenUrl\":\"https://api.workos.com/user_management/authenticate\",\"bearerTokenType\":\"access_token\",\"scopes\":\"openid profile email offline_access\",\"appendOfflineAccess\":true,\"redirectPort\":53180,\"redirectHost\":\"127.0.0.1\"}"
 "inferenceProvider"="gateway"
 "inferenceCredentialKind"="external-idp"
+"disableDeploymentModeChooser"=dword:00000001

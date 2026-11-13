@@ -4,6 +4,72 @@ Sample managed configuration that points Claude Desktop at the hosted
 Corveil gateway and signs the user in through the organization identity
 provider.
 
+> [!WARNING]
+> Every template's sign-in URL ends in the placeholder
+> `organization_id=YOUR_ORGANIZATION_ID`. Earlier versions of these
+> files used `provider=authkit` and worked unchanged. If you redeploy
+> from this repository, replace the placeholder in every file you use
+> first, including both Intune scripts. Every device that gets a file
+> with the placeholder still in it fails to sign in. Your organization's
+> download from Corveil has it filled in.
+
+## Download your organization's profile
+
+These files are templates. Get your organization's copy from Corveil
+instead: on **People & Access → Organization**, choose **Get Desktop
+profile** on the **Claude Desktop** card. The card is there once Corveil
+accepts Claude Desktop sign-in for your organization. The download has
+the `.mobileconfig`, `.reg` and `.json` files below, filled in for your
+organization:
+
+- `organization_id` in the sign-in URL is your organization, so
+  **Sign in to your organization** goes straight to your identity
+  provider, with no email page first. It goes through your
+  organization's single sign-on connection, so set that up first.
+- `inferenceGatewayBaseUrl` is your Corveil origin.
+- `deploymentDisplayName` is your organization's name, and the sample
+  banner is left out.
+
+If your organization has no SSO connection in Corveil, the
+`organization_id` URL can't sign anyone in. Set `authorizationUrl` to
+`https://api.workos.com/user_management/authorize?provider=authkit`
+instead, and people sign in through AuthKit's email page.
+
+A comment beside the placeholder in the `.mobileconfig`, `.reg` and
+Intune files says what it is. JSON has no comments, so
+`managed-settings.json` and `corveil.json` carry only the placeholder.
+
+Start sign-in from Claude Desktop, not from your identity provider's
+app tile. A sign-in started from the tile has no Desktop request to
+return to, so it ends in the Corveil dashboard. Desktop opens the
+device's default browser, so be signed in to your identity provider in
+that browser.
+
+## The claude.ai sign-in is hidden
+
+Every template sets `disableDeploymentModeChooser` to true: `<true/>`
+in the `.mobileconfig`s, `true` in the JSON files, and a `DWORD` of 1 in
+the `.reg` files and the Intune scripts. Claude Desktop then offers only
+the Corveil sign-in, with no switch to a claude.ai sign-in. In a managed
+profile, the key also keeps the profile in charge. Without it, a user
+can sign in to a claude.ai organization that configures Claude Desktop
+in Anthropic's Admin Console, and the device then follows that
+organization's configuration. Claude Desktop has read the key since
+1.3834.0, earlier than either profile's minimum release. See Anthropic's
+[configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration#disabledeploymentmodechooser)
+and [Restrict a device to one deployment mode](https://claude.com/docs/third-party/claude-desktop/mdm#restrict-a-device-to-one-deployment-mode).
+
+Remove the key if people on these devices also need to sign in to
+claude.ai. Corveil's download doesn't set it yet; it will once
+corveil/corveil#5376 ships. Until then, add it to the downloaded files
+yourself.
+
+The templates don't set `deploymentMode`, which replaces this key from
+Claude Desktop 4.16336.0. Earlier releases don't read it, and on Linux
+they treat a key they don't recognize in `managed-settings.json` as an
+error. Don't add it to `managed-settings.json` until every Linux device
+is on 4.16336.0 or later.
+
 ## Which profile to use
 
 Claude Desktop 2.7032.0 renamed the keys that configure this sign-in.
@@ -36,10 +102,12 @@ The four files encode the same keys.
 Sign-in sets `inferenceCredentialKind` to `interactive` and supplies
 `inferenceGatewayOidc`. `inferenceGatewayOidc` and `banner` are one JSON
 string in the `.mobileconfig` and the `.reg`. On Windows,
-`chatTabEnabled` and `endUserAttribution` are `DWORD` values.
+`chatTabEnabled`, `endUserAttribution` and
+`disableDeploymentModeChooser` are `DWORD` values.
 
 `deploymentDisplayName`, `deploymentDisplaySubtitle`, and the banner text
-are sample labels. Replace them before you deploy.
+are sample labels. Replace them before you deploy, or use your
+organization's download.
 
 ## 2.7032 profile
 
@@ -52,8 +120,9 @@ Sign-in sets `inferenceCredentialKind` to `external-idp` and supplies
 `inferenceIdpOidc`, with `inferenceIdpAuthFlow` set to `browser`.
 `inferenceIdpOidc` is one JSON string in both files.
 
-These files set only the gateway and sign-in keys. They leave the chat
-tab, the deployment labels, end-user attribution, and the banner at
+These files set only the gateway and sign-in keys and
+`disableDeploymentModeChooser`, a `DWORD` in the `.reg`. They leave the
+chat tab, the deployment labels, end-user attribution, and the banner at
 their defaults. There is no Linux or JSON form of this profile.
 
 Both Windows files write machine policy, the hive Anthropic recommends
@@ -69,6 +138,19 @@ is present under `HKLM\SOFTWARE\Policies\Claude`, so do not split a
 profile across the two hives.
 
 ## Intune
+
+Get your organization's values from Corveil: on **People & Access →
+Organization**, choose **Get Desktop profile** on the **Claude
+Desktop** card. Today the download has the `.reg` files but not these
+scripts. Once corveil/corveil#5376 ships, it will also include
+ready-made `install.ps1`, `detect.ps1` and `uninstall.ps1` with your
+organization's sign-in URL filled in, which you can upload unchanged.
+
+Until then, use the scripts here. **Before you upload them, replace
+`YOUR_ORGANIZATION_ID` in both `install.ps1` and `detect.ps1`** with
+the `organization_id` value from the `authorizationUrl` in your
+organization's `corveil-2.7032.reg`. A device that runs `install.ps1`
+with the placeholder still in it can't sign in.
 
 Intune cannot import a `.reg` file. The scripts in `intune/` write the
 2.7032 profile to `HKLM\SOFTWARE\Policies\Claude`, and Intune runs each

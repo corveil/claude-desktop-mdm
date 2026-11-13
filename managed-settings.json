@@ -4,12 +4,13 @@
   "inferenceCredentialKind": "interactive",
   "inferenceGatewayOidc": {
     "clientId": "client_01KQDHAG1V3FEATNH6YW7MYGXF",
-    "authorizationUrl": "https://api.workos.com/user_management/authorize?provider=authkit",
+    "authorizationUrl": "https://api.workos.com/user_management/authorize?organization_id=YOUR_ORGANIZATION_ID",
     "tokenUrl": "https://api.workos.com/user_management/authenticate",
     "bearerTokenType": "access_token",
     "scopes": "openid profile email offline_access",
     "redirectPort": 53180
   },
+  "disableDeploymentModeChooser": true,
   "chatTabEnabled": true,
   "deploymentDisplayName": "Corveil",
   "deploymentDisplaySubtitle": "Corveil",

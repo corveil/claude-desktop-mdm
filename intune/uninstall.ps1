@@ -15,6 +15,7 @@ $names = @(
     'inferenceIdpOidc'
     'inferenceProvider'
     'inferenceCredentialKind'
+    'disableDeploymentModeChooser'
 )
 
 $hklm = [Microsoft.Win32.RegistryKey]::OpenBaseKey('LocalMachine', 'Registry64')
